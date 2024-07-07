@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  
+  spring-api-image:
+    image: spring-api-image
+    container_name: spring-api-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+    depends_on:
+      - mysql
+      
+  mysql:
+    image: mysql
+    container_name: mysql_database_container
+    environment:
+      MYSQL_DATABASE: basic_api_dockerizado_db
+      MYSQL_ROOT_PASSWORD: 4231
+      MYSQL_USER: charly
+      MYSQL_PASSWORD: 4321
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-network
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      
+networks:
+  spring-network:        
+
+volumes:
+  mysql-volume:  
